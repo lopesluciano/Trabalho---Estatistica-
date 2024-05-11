@@ -2,6 +2,7 @@
 Projeto da Disciplina SME0620 - Estatistica.
 
 Luciano Gonçalves Lopes Filho - 13676520
+
 Giovanni dos Santos – 13695341
 
 ## Detalhes do Trabalho
