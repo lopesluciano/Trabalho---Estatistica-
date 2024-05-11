@@ -103,5 +103,161 @@ generate_frequency_table(data, "chest.pain.type")
 #Dado Quantitativo:
 generate_frequency_table(data, "age")
 
+generate_boxplot <- function(data, column_name) {
+  # Check if the column exists
+  if (column_name %in% colnames(data)) {
+    # Extract the column data
+    column_data <- data[[column_name]]
+
+       # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
+    
+    # Create a pie chart and save it as PNG
+    png(png_file)
+    boxplot(column_data, main = paste("Boxplot of", column_name), xlab = column_name)
+    dev.off()
+    
+    cat("Boxplots saved as", png_file, "\n")
+  } else {
+    cat("The specified column does not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "boxplots_pngs"
+generate_boxplot(data, "resting.bp.s")
+
+generate_pie_chart <- function(data, column_name) {
+  # Check if the column exists
+  if (column_name %in% colnames(data)) {
+    # Extract the column data
+    column_data <- data[[column_name]]
+    
+   # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
+    
+    # Create a pie chart and save it as PNG
+    png(png_file)
+    pie(table(column_data), main = paste("Pie Chart of", column_name, xlab = column_name))
+    dev.off()
+    
+    cat("Pie Chart saved as", png_file, "\n")
+  } else {
+    cat("The specified column does not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "pie_charts_pngs"
+generate_pie_chart(data, "chest.pain.type")
+
+generate_histogram <- function(data, column_name, output_folder) {
+  # Check if the column exists
+  if (column_name %in% colnames(data)) {
+    # Extract the column data
+    column_data <- data[[column_name]]
+    
+    # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, paste(column_name, "_histogram.png", sep = ""))
+    
+    # Create a histogram and save it as PNG
+    png(png_file)
+    hist(column_data, main = paste("Histogram of", column_name), xlab = column_name)
+    dev.off()
+    
+    cat("Histogram saved as", png_file, "\n")
+  } else {
+    cat("The specified column does not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "histogram_pngs"
+generate_histogram(data, "resting.bp.s", output_folder)
 
 
+generate_barplot <- function(data, column_name, output_folder) {
+  # Check if the column exists
+  if (column_name %in% colnames(data)) {
+    # Extract the column data
+    column_data <- data[[column_name]]
+    
+    # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
+    
+    # Create a bar plot and save it as PNG
+    png(png_file)
+    barplot(table(column_data), main = paste("Barplot of", column_name), xlab = column_name)
+    dev.off()
+    
+    cat("Barplot saved as", png_file, "\n")
+  } else {
+    cat("The specified column does not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "barplot_pngs"
+generate_barplot(data, "chest.pain.type", output_folder)
+generate_barplot(data, "age", output_folder)
+
+
+# Function to generate scatter plot and calculate covariance and correlation
+generate_scatterplot <- function(data, x_column, y_column, output_folder) {
+  # Check if the columns exist
+  if (x_column %in% colnames(data) && y_column %in% colnames(data)) {
+    # Extract the column data
+    x_data <- data[[x_column]]
+    y_data <- data[[y_column]]
+    
+    # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, paste(x_column, "_vs_", y_column, "_scatterplot.png", sep = ""))
+    
+    # Create the scatter plot and save it as PNG
+    png(png_file)
+    plot(x_data, y_data, main = paste("Scatter Plot of", x_column, "vs", y_column), 
+         xlab = x_column, ylab = y_column)
+    dev.off()
+    
+    cat("Scatter plot saved as", png_file, "\n")
+    
+    # Calculate covariance and correlation
+    cat("\n")
+    cat("Relationship Between Variables:\n")
+    covariance <- cov(x_data, y_data)
+    cat("Covariance between", x_column, "and", y_column, ":", covariance, "\n")  
+    correlation <- cor(x_data, y_data)
+    cat("Correlation between", x_column, "and", y_column, ":", correlation, "\n")
+  } else {
+    cat("One or both of the specified columns do not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "scatterplot_pngs"
+generate_scatterplot(data, "age", "resting.bp.s", output_folder)
