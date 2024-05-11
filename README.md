@@ -8,3 +8,6 @@ Projeto da Disciplina SME0620 - Estatística.
 ## Detalhes do Trabalho
 O trabalho consiste no uso da estatística descritiva para descrever, resumir e compreender dados relacionados a problemas cardíacos, os dados seguem do artigo [Heart Disease Dataset]([https://github.com](https://www.kaggle.com/datasets/mexwell/heart-disease-dataset?select=documentation.pdf)), publicado na plataforma Kaggle. O conjunto de dados consiste em 1190 instâncias com 11 fatores cada. Foram utilizadas planilhas eletrônicas e linguagem R na análise.
 
+## Bibliografia
+https://www.kaggle.com/datasets/mexwell/heart-disease-dataset?select=documentation.pdf
+
