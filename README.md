@@ -1,5 +1,5 @@
 # Trabalho de Pesquisa de Estatistica
-Projeto da Disciplina SME0620 - Estatistica.
+Projeto da Disciplina SME0620 - Estatística.
 
 - Luciano Gonçalves Lopes Filho - 13676520
 
