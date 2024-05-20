@@ -1,37 +1,35 @@
-# Read the CSV file into a data frame
+# Leitura do CSV
 data <- read.csv("/home/luciano/Documents2/DadosEstatisca/heart_statlog_cleveland_hungary_final.csv")
  
-#install.packages("DescTools")
-
-
+# Funcao para calcular medidas resumo
 calculate_statistics <- function(data, column_name) {
-  # Check if the column exists
+  # Checar se a coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     column_data <- data[[column_name]]
     
-    # Check if the column data is numeric
+    # Checar se os dados da coluna sao numericos
     if (is.numeric(column_data)) {
-      # Calculate the average of the column
+      # Calcular a media da coluna
       average <- mean(column_data, na.rm = TRUE)
       
-      # Calculate the variance of the column
+      # Calcular a variancia da coluna
       variance <- var(column_data, na.rm = TRUE)
       
-      # Calculate other statistical features of the column
+      # Calcular outros valores estatisticos da coluna
       standard_deviation <- sd(column_data, na.rm = TRUE)
       median_value <- median(column_data, na.rm = TRUE)
       min_value <- min(column_data, na.rm = TRUE)
       max_value <- max(column_data, na.rm = TRUE)
       
-      # Calculate mode
+      # Calcular modo
       mode_table <- table(column_data)
       mode_value <- as.numeric(names(mode_table)[which.max(mode_table)])
       
-      # Calculate quantiles
+      # Calcular quantis
       quantiles <- quantile(column_data, probs = c(0.25, 0.5, 0.75))
       
-      # Print out the results
+      # Imprimir resultados
       cat("Summary Measures of", column_name, "\n")
       cat("Average of", column_name, ":", average, "\n")
       cat("Variance of", column_name, ":", variance, "\n")
@@ -50,8 +48,7 @@ calculate_statistics <- function(data, column_name) {
   cat("\n")
 }
 
-
-# Test the function with the data
+# Calculando as medidas resumo
 calculate_statistics(data, "age")
 calculate_statistics(data, "sex")
 calculate_statistics(data, "chest.pain.type")
@@ -66,26 +63,26 @@ calculate_statistics(data, "ST.slope")
 calculate_statistics(data, "target")
 
 
-# Print out the column names of the original dataset
+# Imprimir os nomes das colunas do arquivo original
 cat("Column Names:", colnames(data), "\n")
 
-
+# Funcao para gerar tabela de frequencias 
 generate_frequency_table <- function(data, column_name) {
-  # Check if the column exists
+  # Checar se a coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     column_data <- data[[column_name]]
     
-    # Generate frequency table
+    # Gerar tabela de frequencias
     frequency_table <- table(column_data)
     
-    # Calculate total count
+    # Calcular o valor total das frequencias
     total <- sum(frequency_table)
     
-    # Calculate relative frequencies
+    # Calculate as frequencias relativas
     relative_freq <- prop.table(frequency_table)
     
-    # Print out the frequency table with relative frequencies and total
+    # Imprimir as frequencias totais e relativas
     cat("Frequency Table for", column_name, ":\n")
     print(frequency_table)
     cat("\nRelative Frequencies:\n")
@@ -103,21 +100,22 @@ generate_frequency_table(data, "chest.pain.type")
 #Dado Quantitativo:
 generate_frequency_table(data, "age")
 
+# Funcao para gerar boxplot
 generate_boxplot <- function(data, column_name) {
-  # Check if the column exists
+  # Checar se a coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair os dados da coluna
     column_data <- data[[column_name]]
 
-       # Create the output folder if it doesn't exist
+       # Criar pasta de de saida se ainda nao existir
     if (!file.exists(output_folder)) {
       dir.create(output_folder, recursive = TRUE)
     }
     
-    # Set the file path for the PNG file
+    # Criar o "Path" para o arquivo de imagem
     png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
     
-    # Create a pie chart and save it as PNG
+    # Criar um grafico boxplot e salvar como PNG
     png(png_file)
     boxplot(column_data, main = paste("Boxplot of", column_name), xlab = column_name)
     dev.off()
@@ -128,25 +126,26 @@ generate_boxplot <- function(data, column_name) {
   }
 }
 
-# Example usage:
+# Exemplo de uso:
 output_folder <- "boxplots_pngs"
 generate_boxplot(data, "resting.bp.s")
 
+# Funcao para gerar grafico pizza
 generate_pie_chart <- function(data, column_name) {
-  # Check if the column exists
+  # Checar se a coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     column_data <- data[[column_name]]
     
-   # Create the output folder if it doesn't exist
+   # Criar pasta de saida se ainda nao existir
     if (!file.exists(output_folder)) {
       dir.create(output_folder, recursive = TRUE)
     }
     
-    # Set the file path for the PNG file
+    # Criar "Path" para salvar imagem
     png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
     
-    # Create a pie chart and save it as PNG
+    # Criar um grafico pizza e salvar como PNG
     png(png_file)
     pie(table(column_data), main = paste("Pie Chart of", column_name, xlab = column_name))
     dev.off()
@@ -157,25 +156,26 @@ generate_pie_chart <- function(data, column_name) {
   }
 }
 
-# Example usage:
+# Exemplo de uso:
 output_folder <- "pie_charts_pngs"
 generate_pie_chart(data, "chest.pain.type")
 
+#Funcao para gerar histograma
 generate_histogram <- function(data, column_name, output_folder) {
-  # Check if the column exists
+  # Checar se coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     column_data <- data[[column_name]]
     
-    # Create the output folder if it doesn't exist
+    # Criar pasta de saida se nao existir
     if (!file.exists(output_folder)) {
       dir.create(output_folder, recursive = TRUE)
     }
     
-    # Set the file path for the PNG file
+    # Criar "path" para salvar a imagem
     png_file <- file.path(output_folder, paste(column_name, "_histogram.png", sep = ""))
     
-    # Create a histogram and save it as PNG
+    # Criar um histograma e salvar como PNG
     png(png_file)
     hist(column_data, main = paste("Histogram of", column_name), xlab = column_name)
     dev.off()
@@ -186,26 +186,26 @@ generate_histogram <- function(data, column_name, output_folder) {
   }
 }
 
-# Example usage:
+# Exemplo de uso:
 output_folder <- "histogram_pngs"
 generate_histogram(data, "resting.bp.s", output_folder)
 
-
+# Funcao para gerar grafico de barras
 generate_barplot <- function(data, column_name, output_folder) {
-  # Check if the column exists
+  # Checar se coluna existe
   if (column_name %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     column_data <- data[[column_name]]
     
-    # Create the output folder if it doesn't exist
+    # Criar pasta de saida se ainda nao existir
     if (!file.exists(output_folder)) {
       dir.create(output_folder, recursive = TRUE)
     }
     
-    # Set the file path for the PNG file
+    # Criar "Path" para salvar imagem
     png_file <- file.path(output_folder, paste(column_name, ".png", sep = ""))
     
-    # Create a bar plot and save it as PNG
+    # Criar grafico de barras e salvar como PNG
     png(png_file)
     barplot(table(column_data), main = paste("Barplot of", column_name), xlab = column_name)
     dev.off()
@@ -216,29 +216,29 @@ generate_barplot <- function(data, column_name, output_folder) {
   }
 }
 
-# Example usage:
+# Exemplo de uso:
 output_folder <- "barplot_pngs"
 generate_barplot(data, "chest.pain.type", output_folder)
 generate_barplot(data, "age", output_folder)
 
 
-# Function to generate scatter plot and calculate covariance and correlation
+# Funcao para gerar grafico de dispersao e calcular covariancia e correlacao
 generate_scatterplot <- function(data, x_column, y_column, output_folder) {
-  # Check if the columns exist
+  # Checar se coluna existe
   if (x_column %in% colnames(data) && y_column %in% colnames(data)) {
-    # Extract the column data
+    # Extrair dados da coluna
     x_data <- data[[x_column]]
     y_data <- data[[y_column]]
     
-    # Create the output folder if it doesn't exist
+    # Criar pasta de saida se ainda nao existir
     if (!file.exists(output_folder)) {
       dir.create(output_folder, recursive = TRUE)
     }
     
-    # Set the file path for the PNG file
+    # Criar "Path" para salvar imagem
     png_file <- file.path(output_folder, paste(x_column, "_vs_", y_column, "_scatterplot.png", sep = ""))
     
-    # Create the scatter plot and save it as PNG
+    # Gerar o grafico de dispersao e salvar como PNG
     png(png_file)
     plot(x_data, y_data, main = paste("Scatter Plot of", x_column, "vs", y_column), 
          xlab = x_column, ylab = y_column)
@@ -246,7 +246,7 @@ generate_scatterplot <- function(data, x_column, y_column, output_folder) {
     
     cat("Scatter plot saved as", png_file, "\n")
     
-    # Calculate covariance and correlation
+    # Calcular correlacao e covariancia
     cat("\n")
     cat("Relationship Between Variables:\n")
     covariance <- cov(x_data, y_data)
@@ -258,6 +258,6 @@ generate_scatterplot <- function(data, x_column, y_column, output_folder) {
   }
 }
 
-# Example usage:
+# Uso exemplo:
 output_folder <- "scatterplot_pngs"
 generate_scatterplot(data, "age", "resting.bp.s", output_folder)
