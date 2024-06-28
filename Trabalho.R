@@ -261,3 +261,34 @@ generate_scatterplot <- function(data, x_column, y_column, output_folder) {
 # Uso exemplo:
 output_folder <- "scatterplot_pngs"
 generate_scatterplot(data, "age", "resting.bp.s", output_folder)
+
+generate_boxplot_age_vs_chestpain <- function(data, output_folder) {
+  # Check if the columns exist
+  if ("age" %in% colnames(data) && "chest.pain.type" %in% colnames(data)) {
+    # Extract the column data
+    age_data <- data[["age"]]
+    chest_pain_data <- data[["chest.pain.type"]]
+    
+    # Create the output folder if it doesn't exist
+    if (!file.exists(output_folder)) {
+      dir.create(output_folder, recursive = TRUE)
+    }
+    
+    # Set the file path for the PNG file
+    png_file <- file.path(output_folder, "age_vs_chest_pain_boxplot.png")
+    
+    # Create the box plot and save it as PNG
+    png(png_file)
+    boxplot(age_data ~ chest_pain_data, main = "Boxplot of Age vs Chest Pain Type",
+            xlab = "Chest Pain Type", ylab = "Age")
+    dev.off()
+    
+    cat("Box plot saved as", png_file, "\n")
+  } else {
+    cat("One or both of the specified columns do not exist.\n")
+  }
+}
+
+# Example usage:
+output_folder <- "boxplot_pngs"
+generate_boxplot_age_vs_chestpain(data, output_folder)
