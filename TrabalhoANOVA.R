@@ -1,4 +1,4 @@
-# Passo 1: Carregar os dados
+# Carregar os dados
 dados <- read.csv("/home/luciano/Documents2/DadosEstatisca/heart_statlog_cleveland_hungary_final.csv")
 
 # Supondo que a coluna de dados seja chamada 'age'
