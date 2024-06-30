@@ -260,7 +260,7 @@ generate_scatterplot <- function(data, x_column, y_column, output_folder) {
 
 # Uso exemplo:
 output_folder <- "scatterplot_pngs"
-generate_scatterplot(data, "age", "resting.bp.s", output_folder)
+generate_scatterplot(data, "age", "max.heart.rate", output_folder)
 
 generate_boxplot_age_vs_chestpain <- function(data, output_folder) {
   # Check if the columns exist
